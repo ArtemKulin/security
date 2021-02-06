@@ -8,43 +8,21 @@ import ru.kulinartem.security.model.User;
 
 import java.util.List;
 
-@Service
-public class UserService implements DaoService<User> {
 
-    private final UserDao userDao;
+public interface UserService extends DaoService<User> {
 
-    @Autowired
-    public UserService(UserDao userDAO) {
-        this.userDao = userDAO;
-    }
-
-    @Transactional
     @Override
-    public User getItemById(long id) {
-        return userDao.getItemById(id);
-    }
+    public User getItemById(long id);
 
-    @Transactional
     @Override
-    public List<User> getAllItems() {
-        return userDao.getAllItems();
-    }
+    public List<User> getAllItems();
 
-    @Transactional
     @Override
-    public void saveItem(User item) {
-        userDao.saveItem(item);
-    }
+    public void saveItem(User item);
 
-    @Transactional
     @Override
-    public void deleteItem(User item) {
-        userDao.deleteItem(item);
-    }
+    public void deleteItem(User item);
 
-    @Transactional
     @Override
-    public void updateItem(User item, long id) {
-        userDao.updateItem(item, id);
-    }
+    public void updateItem(User item, long id);
 }
