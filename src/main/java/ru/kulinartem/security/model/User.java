@@ -1,6 +1,7 @@
 package ru.kulinartem.security.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table (name = "users")
@@ -71,5 +72,29 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && name.equals(user.name) && lastName.equals(user.lastName) && email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, age, email);
     }
 }
