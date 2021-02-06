@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+</head>
+<body>
+<h2>Добро пожаловать на страницу пользователя <span th:text="${user.getName()}">name</span>!</h2>
+<br>
+<div>
+    Пользователя зовут <span th:text="${user.getName()}"></span>
+    <span th:text="${user.getLastName()}"></span><br>
+    Возраст пользователя составляет <span th:text="${user.getAge()}"></span>.<br>
+    Электронная почта пользователя - <span th:text="${user.getEmail()}"></span>.<br>
+</div>
+<br>
+<form th:method="GET" th:action="@{/{id}/edit(id=${user.getId()})}">
+    <input type="submit" value="Отредактировать пользователя">
+</form>
+<br>
+<form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+    <input type="submit" value="Удалить пользователя">
+</form>
+</body>
+</html>
