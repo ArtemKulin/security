@@ -20,4 +20,7 @@ public interface UserDao extends Dao<User>{
 
     @Override
     public void updateItem(User item, long id);
+
+    @Override
+    User getItemByEmail(String email);
 }
