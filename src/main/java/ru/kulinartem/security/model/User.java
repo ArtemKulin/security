@@ -1,11 +1,18 @@
 package ru.kulinartem.security.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table (name = "users")
-public class User {
+public class User implements UserDetailsService {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -24,14 +31,38 @@ public class User {
     @Column (name = "email")
     private String email;
 
+    @Column (name = "password")
+    private String password;
+
+    @ManyToMany (
+            cascade = {
+                    CascadeType.PERSIST, CascadeType.MERGE
+                    , CascadeType.REFRESH, CascadeType.DETACH}
+            , fetch = FetchType.LAZY)
+    @JoinTable (
+            name = "users_roles"
+            , joinColumns = @JoinColumn (name = "user_id")
+            , inverseJoinColumns = @JoinColumn (name = "role_id")
+    )
+    private Set<Role> roles;
+
     public User() {
     }
 
-    public User(String name, String lastName, byte age, String email) {
+    public User(String name, String lastName, byte age, String email, String password) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
+        this.password = password;
+    }
+
+    public void addRoleToUser (Role role) {
+        if (roles.isEmpty()) {
+            roles = new HashSet<>();
+        } else {
+            roles.add(role);
+        }
     }
 
     public long getId() {
@@ -72,6 +103,27 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 
     @Override
