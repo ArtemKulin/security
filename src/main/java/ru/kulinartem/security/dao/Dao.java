@@ -15,4 +15,5 @@ public interface Dao<T> {
 
     public void updateItem(T item, long id);
 
+    public T getItemByEmail(String email);
 }
