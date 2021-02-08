@@ -47,4 +47,10 @@ public class UserServiceImpl implements UserService {
     public void updateItem(User item, long id) {
         userDao.updateItem(item, id);
     }
+
+    @Transactional
+    @Override
+    public User getItemByEmail(String email) {
+        return userDao.getItemByEmail(email);
+    }
 }
