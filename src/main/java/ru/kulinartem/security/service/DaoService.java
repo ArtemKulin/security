@@ -13,4 +13,6 @@ public interface DaoService<T> {
     public void deleteItem(T item);
 
     public void updateItem(T item, long id);
+
+    public T getItemByEmail(String email);
 }
