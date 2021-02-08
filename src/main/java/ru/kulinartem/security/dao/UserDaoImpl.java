@@ -45,4 +45,12 @@ public class UserDaoImpl implements UserDao {
         updatedUser.setEmail(item.getEmail());
         manager.merge(updatedUser);
     }
+
+    @Override
+    public User getItemByEmail(String email) {
+        return (User) manager
+                .createQuery("FROM User u JOIN FETCH u.roles WHERE u.email =:parEmail")
+                .setParameter("parEmail", email)
+                .getSingleResult();
+    }
 }
