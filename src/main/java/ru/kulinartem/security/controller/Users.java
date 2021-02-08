@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kulinartem.security.model.Role;
 import ru.kulinartem.security.model.User;
 import ru.kulinartem.security.service.UserService;
 
@@ -57,4 +58,16 @@ public class Users {
         user.deleteItem(deletedUser);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String showLogin(@ModelAttribute("authUser") User authUser, Model model) {
+        model.addAttribute("user", authUser.getId());
+        return "/login";
+    }
+
+   @PostMapping("/login")
+    public String successLoginUserPage(@ModelAttribute("user") User authUser) {
+        return "/" + authUser.getId();
+   }
+
 }
