@@ -25,4 +25,7 @@ public interface UserService extends DaoService<User> {
 
     @Override
     public void updateItem(User item, long id);
+
+    @Override
+    public User getItemByEmail(String email);
 }
