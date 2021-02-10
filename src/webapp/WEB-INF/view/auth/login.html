@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login page</title>
 </head>
 <body>
-<div>
-    <form th:method="POST" th:action="@{/{id}(id=${authUser.id})}" th:object="authUser">
-        <input name="j_username"/>
-        <input name="j_password"/>
-        <input type="submit"/>
+<div class="container">
+    <form method="post" action="/auth/login">
+        <h2>Login</h2>
+        <p>
+            <label for="email">Username</label>
+            <input type="text" id="email" name="email" placeholder="Login" required>
+        </p>
+        <p>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </p>
+        <button type="submit">Sign in</button>
     </form>
 </div>
 </body>
