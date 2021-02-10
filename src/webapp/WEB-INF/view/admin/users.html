@@ -22,16 +22,20 @@
             <td th:text="${user.age}">age</td>
             <td th:text="${user.email}">email</td>
             <td>
-                <a th:href="@{/{id}(id=${user.getId()})}"
+                <a th:href="@{/user/{id}(id=${user.getId()})}"
                 th:text="Посмотреть"></a>
             </td>
         </tr>
     </table>
     <br>
     <br>
-    <form th:method="GET" th:action="@{/new}">
+    <form th:method="GET" th:action="@{/admin/new}">
         <input type="submit" value="Добавить нового пользователя?">
     </form>
 </div>
+<br>
+<form th:method="GET" action="/auth/logout">
+    <input type="submit" value="Выйти">
+</form>
 </body>
 </html>
