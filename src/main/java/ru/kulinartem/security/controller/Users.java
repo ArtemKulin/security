@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kulinartem.security.model.Role;
 import ru.kulinartem.security.model.User;
 import ru.kulinartem.security.service.UserService;
 
 @Controller
+@RequestMapping("/user")
 public class Users {
 
     private final UserService user;
@@ -18,56 +18,27 @@ public class Users {
         this.user = user;
     }
 
-    @GetMapping("/")
-    public String showUsers(Model model) {
-        model.addAttribute("users", user.getAllItems());
-        return "index";
-    }
-
     @GetMapping("/{id}")
     public String showUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", user.getItemById(id));
-        return "user";
-    }
-
-    @GetMapping("/new")
-    public String showNewUser(@ModelAttribute("newUser") User newUser) {
-        return "newUser";
-    }
-
-    @PostMapping
-    public String createNewUser(@ModelAttribute("newUser") User newUser) {
-        user.saveItem(newUser);
-        return "redirect:/";
+        return "user/user";
     }
 
     @GetMapping("/{id}/edit")
     public String showEditUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", user.getItemById(id));
-        return "edit";
+        return "user/edit";
     }
 
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User editedUser, @PathVariable("id") long id) {
         user.updateItem(editedUser, id);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@ModelAttribute("user") User deletedUser) {
         user.deleteItem(deletedUser);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
-
-    @GetMapping("/login")
-    public String showLogin(@ModelAttribute("authUser") User authUser, Model model) {
-        model.addAttribute("user", authUser.getId());
-        return "/login";
-    }
-
-   @PostMapping("/login")
-    public String successLoginUserPage(@ModelAttribute("user") User authUser) {
-        return "/" + authUser.getId();
-   }
-
 }
