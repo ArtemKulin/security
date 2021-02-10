@@ -7,7 +7,7 @@
 <body>
 <h2>Страница создания нового пользователя</h2>
 <br>
-<form th:method="POST" th:action="@{/}" th:object="${newUser}">
+<form th:method="POST" th:action="@{/admin/users}" th:object="${newUser}">
     <label for="name">Введите имя: </label>
     <input type="text" th:field="*{name}" id="name"/>
     <br>
@@ -23,6 +23,11 @@
     <br>
     <input type="submit" value="Создать нового пользователя">
 
+</form>
+
+<br>
+<form th:method="GET" action="/auth/logout">
+    <input type="submit" value="Выйти">
 </form>
 
 
