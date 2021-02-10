@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>User Page</title>
@@ -14,6 +14,7 @@
     Электронная почта пользователя - <span th:text="${user.getEmail()}"></span>.<br>
 </div>
 <br>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
 <form th:method="GET" th:action="@{/{id}/edit(id=${user.getId()})}">
     <input type="submit" value="Отредактировать пользователя">
 </form>
@@ -21,5 +22,6 @@
 <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
     <input type="submit" value="Удалить пользователя">
 </form>
+</div>
 </body>
 </html>
