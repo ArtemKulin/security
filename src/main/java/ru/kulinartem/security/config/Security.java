@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kulinartem.security.config.handler.SuccessHandler;
 
 
@@ -41,17 +42,25 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-                .antMatchers("/user").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-                .antMatchers("/new").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/edit").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/auth/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+                .antMatchers("/user/").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+                .antMatchers("/user/**/edit").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(successHandler)
                 .permitAll()
-                .usernameParameter("j_username")
-                .passwordParameter("j_password");
-                //.successHandler(successHandler);
+                .and()
+                .logout()
+                .logoutUrl("/auth/logout")
+                .logoutSuccessUrl("/")
+                .permitAll();
     }
 
     @Bean
@@ -63,7 +72,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 }
