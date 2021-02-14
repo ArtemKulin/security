@@ -20,7 +20,7 @@ public class Admins {
     }
 
     @GetMapping("/")
-    public String showRootPage(Model model) {
+    public String showAdminRootPage(Model model) {
         model.addAttribute("users", user.getAllItems());
         return "admin/users";
     }
@@ -31,14 +31,14 @@ public class Admins {
         return "admin/users";
     }
 
-//    @GetMapping("/{id}")
-//    public String showUser(@PathVariable("id") long id, Model model) {
-//        model.addAttribute("user", user.getItemById(id));
-//        return "user/user";
-//    }
+    @GetMapping("/{id}")
+    public String showUserPage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", user.getItemById(id));
+        return "admin/user";
+    }
 
     @GetMapping("/new")
-    public String showNewUser(@ModelAttribute("newUser") User newUser) {
+    public String showNewUserPage(@ModelAttribute("newUser") User newUser) {
         return "admin/newUser";
     }
 
@@ -46,5 +46,23 @@ public class Admins {
     public String createNewUser(@ModelAttribute("newUser") User newUser) {
         user.saveItem(newUser);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditUserPage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", user.getItemById(id));
+        return "admin/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String editUser(@ModelAttribute("user") User editedUser, @PathVariable("id") long id) {
+        user.updateItem(editedUser, id);
+        return "redirect:/admin/";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@ModelAttribute("user") User deletedUser) {
+        user.deleteItem(deletedUser);
+        return "redirect:/admin/";
     }
 }
