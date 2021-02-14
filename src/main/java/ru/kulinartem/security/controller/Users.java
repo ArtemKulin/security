@@ -23,22 +23,4 @@ public class Users {
         model.addAttribute("user", user.getItemById(id));
         return "user/user";
     }
-
-    @GetMapping("/{id}/edit")
-    public String showEditUser(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", user.getItemById(id));
-        return "user/edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String editUser(@ModelAttribute("user") User editedUser, @PathVariable("id") long id) {
-        user.updateItem(editedUser, id);
-        return "redirect:/admin/";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@ModelAttribute("user") User deletedUser) {
-        user.deleteItem(deletedUser);
-        return "redirect:/admin/";
-    }
 }
