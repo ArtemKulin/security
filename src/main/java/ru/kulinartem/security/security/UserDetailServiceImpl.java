@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kulinartem.security.dao.UserDao;
-import ru.kulinartem.security.model.User;
 
 @Service ("userDetailServiceImpl")
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -20,7 +19,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userDao.getItemByEmail(email);
-        return user.fromUser();
+        return userDao.getItemByEmail(email);
     }
 }
