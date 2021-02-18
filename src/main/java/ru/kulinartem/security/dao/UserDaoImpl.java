@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveItem(User item) {
-        manager.persist(item);
+        manager.merge(item);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getItemByEmail(String email) {
         return (User) manager
-                .createQuery("FROM User u JOIN FETCH u.roles WHERE u.email =:parEmail")
+                .createQuery("FROM User u WHERE u.email =:parEmail")
                 .setParameter("parEmail", email)
                 .getSingleResult();
     }
