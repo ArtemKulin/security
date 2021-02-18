@@ -33,17 +33,23 @@ public class User implements UserDetails {
     @Column (name = "password")
     private String password;
 
-    @ManyToMany (
-            cascade = {
-                    CascadeType.PERSIST, CascadeType.MERGE
+    @ManyToOne (
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE
                     , CascadeType.REFRESH, CascadeType.DETACH}
-            , fetch = FetchType.LAZY)
-    @JoinTable (
-            name = "users_roles"
-            , joinColumns = @JoinColumn (name = "user_id")
-            , inverseJoinColumns = @JoinColumn (name = "role_id")
     )
-    private Set<Role> roles;
+    @JoinColumn (name = "id", insertable = false, updatable = false)
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Transient
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -54,14 +60,6 @@ public class User implements UserDetails {
         this.age = age;
         this.email = email;
         this.password = password;
-    }
-
-    public void addRoleToUser (Role role) {
-        if (roles.isEmpty()) {
-            roles = new HashSet<>();
-        } else {
-            roles.add(role);
-        }
     }
 
     public long getId() {
@@ -112,15 +110,9 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public UserDetails fromUser() {
-        return new org.springframework.security.core.userdetails.User(
-                this.getEmail(), this.getPassword(),
-               this.getRoles()
-        );
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        roles.add(this.getRole());
         return roles;
     }
 
