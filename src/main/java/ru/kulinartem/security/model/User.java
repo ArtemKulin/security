@@ -1,6 +1,7 @@
 package ru.kulinartem.security.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -33,11 +34,8 @@ public class User implements UserDetails {
     @Column (name = "password")
     private String password;
 
-    @ManyToOne (
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE
-                    , CascadeType.REFRESH, CascadeType.DETACH}
-    )
-    @JoinColumn (name = "id", insertable = false, updatable = false)
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn (name = "role_id", foreignKey = @ForeignKey(name = "role_id_fk"))
     private Role role;
 
     public Role getRole() {
